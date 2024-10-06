@@ -1,0 +1,6 @@
+torch
+torchvision
+transformers
+tiktoken
+verovio
+accelerate
