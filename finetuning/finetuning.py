@@ -57,3 +57,77 @@ model = AutoModelForCausalLM.from_pretrained(
 
 # Load tokenizer
 tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
+
+
+### 
+# add data stuff here 
+### 
+
+import bitsandbytes as bnb
+
+def find_all_linear_names(model):
+    cls = bnb.nn.Linear4bit
+    lora_module_names = set()
+    for name, module in model.named_modules():
+        if isinstance(module, cls):
+            names = name.split('.')
+            lora_module_names.add(names[0] if len(names) == 1 else names[-1])
+    if 'lm_head' in lora_module_names:  # needed for 16 bit
+        lora_module_names.remove('lm_head')
+    return list(lora_module_names)
+
+modules = find_all_linear_names(model)
+
+# LoRA config
+peft_config = LoraConfig(
+    r=16,
+    lora_alpha=32,
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM",
+    target_modules=modules
+)
+model, tokenizer = setup_chat_format(model, tokenizer)
+model = get_peft_model(model, peft_config) 
+
+new_model = "llama-3.2-1b-it-finetuned"
+
+#Hyperparamter
+training_arguments = TrainingArguments(
+    output_dir=new_model,
+    per_device_train_batch_size=1,
+    per_device_eval_batch_size=1,
+    gradient_accumulation_steps=2,
+    optim="paged_adamw_32bit",
+    num_train_epochs=1,
+    eval_strategy="steps",
+    eval_steps=0.2,
+    logging_steps=1,
+    warmup_steps=10,
+    logging_strategy="steps",
+    learning_rate=2e-4,
+    fp16=False,
+    bf16=False,
+    group_by_length=True,
+    report_to="wandb"
+)
+
+# Setting sft parameters
+trainer = SFTTrainer(
+    model=model,
+    train_dataset=dataset["train"],
+    eval_dataset=dataset["test"],
+    peft_config=peft_config,
+    max_seq_length= 512,
+    dataset_text_field="text",
+    tokenizer=tokenizer,
+    args=training_arguments,
+    packing= False,
+)
+
+trainer.train()
+wandb.finish()
+
+# Save the fine-tuned model
+trainer.model.save_pretrained(new_model)
+trainer.model.push_to_hub(new_model, use_temp_dir=False)
