@@ -19,8 +19,6 @@ from huggingface_hub import InferenceClient
 
 from PIL import Image
 
-import pytesseract
-from PIL import Image
 # import easyocr  # Uncomment if you plan to use easyocr
 # from transformers import AutoTokenizer, AutoModel  # Uncomment if you plan to use transformers
 
@@ -153,9 +151,9 @@ def call_llama_groq(system_prompt, user_prompt):
     client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
     model_list = [
-        "llama-3.1-70b-versatile",
-        "llama-3.2-11b-text-preview",
         "llama-3.2-90b-text-preview",
+        "llama-3.1-70b-versatile",
+        "llama3-70b-8192",
         #"llama-3.1-8b-instant",
     ]
 
@@ -178,18 +176,21 @@ def call_llama_groq(system_prompt, user_prompt):
                 if match:
                     wait_time_str = match.group(1)
                     wait_time = parse_wait_time(wait_time_str)
-                    if wait_time > 30:  # 30 seconds
-                        print(f"Rate limit reached with {model}, wait time longer than 30 seconds. Trying next model...")
-                        break#
+                    if wait_time > 5:  # 30 seconds
+                        print(f"Rate limit reached with {model}, wait time longer than 5 seconds. Trying next model...")
+                        break
                     else:
                         print(f"Rate limit reached. Waiting for {wait_time_str}...")
                         time.sleep(wait_time)
                 else:
                     print("Rate limit reached but could not parse wait time. Retrying in 1 minute...")
                     time.sleep(60)  # Wait for 1 minute if parsing fails
+            except Exception as e:
+                print(f"An error occurred: {e}. Trying next model or calling HuggingFace...")
+                break
 
-    # If all models have been tried and rate limited, call the other API
-    print("All models rate limited. Calling model from HuggingFace remotely...")
+    # If all models have been tried, call the other API
+    print("All models tried. Calling model from HuggingFace remotely...")
     return call_llama_hf(system_prompt, user_prompt)
 
 def parse_wait_time(wait_time_str):
