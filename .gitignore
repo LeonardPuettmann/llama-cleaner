@@ -1,0 +1,6 @@
+tmp
+pdfs
+data
+__pycache__
+wandb
+llama-3.2-1b-it-finetuned
