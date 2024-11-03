@@ -1,0 +1,47 @@
+DatasetDict({
+    train: Dataset({
+        features: ['raw_pages', 'cleaned_pages', 'text'],
+        num_rows: 1101
+    })
+    test: Dataset({
+        features: ['raw_pages', 'cleaned_pages', 'text'],
+        num_rows: 276
+    })
+})
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\utils\_deprecation.py:100: FutureWarning: Deprecated argument(s) used in '__init__': max_seq_length, dataset_text_field. Will not be supported from version '0.13.0'.
+
+Deprecated positional argument(s) used in SFTTrainer, please use the SFTConfig to set these arguments instead.
+  warnings.warn(message, FutureWarning)
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\trl\trainer\sft_trainer.py:300: UserWarning: You passed a `max_seq_length` argument to the SFTTrainer, the value you passed will override the one in the `SFTConfig`.
+  warnings.warn(
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\trl\trainer\sft_trainer.py:328: UserWarning: You passed a `dataset_text_field` argument to the SFTTrainer, the value you passed will override the one in the `SFTConfig`.
+  warnings.warn(
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\trl\trainer\sft_trainer.py:537: UserWarning: You passed `remove_unused_columns=False` on a non-packed dataset. This might create some issues with the default collator and yield to errors. If you want to inspect dataset other columns (in this case ['cleaned_pages', 'raw_pages', 'text']), you can subclass `DataCollatorForLanguageModeling` in case you used the default collator and create your own data collator in order to inspect the unused dataset columns.
+  warnings.warn(
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\trl\trainer\sft_trainer.py:403: UserWarning: You passed a processing_class with `padding_side` not equal to `right` to the SFTTrainer. This might lead to some unexpected behaviour due to overflow issues when training a model in half-precision. You might consider adding `processing_class.padding_side = 'right'` to your code.
+  warnings.warn(
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\utils\_deprecation.py:100: FutureWarning: Deprecated argument(s) used in '__init__': max_seq_length, dataset_text_field, packing. Will not be supported from version '0.13.0'.
+
+Deprecated positional argument(s) used in SFTTrainer, please use the SFTConfig to set these arguments instead.
+  warnings.warn(message, FutureWarning)
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\trl\trainer\sft_trainer.py:212: UserWarning: You passed a `packing` argument to the SFTTrainer, the value you passed will override the one in the `SFTConfig`.
+  warnings.warn(
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\trl\trainer\sft_trainer.py:300: UserWarning: You passed a `max_seq_length` argument to the SFTTrainer, the value you passed will override the one in the `SFTConfig`.
+  warnings.warn(
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\trl\trainer\sft_trainer.py:328: UserWarning: You passed a `dataset_text_field` argument to the SFTTrainer, the value you passed will override the one in the `SFTConfig`.
+  warnings.warn(
+c:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\trl\trainer\sft_trainer.py:403: UserWarning: You passed a processing_class with `padding_side` not equal to `right` to the SFTTrainer. This might lead to some unexpected behaviour due to overflow issues when training a model in half-precision. You might consider adding `processing_class.padding_side = 'right'` to your code.
+  warnings.warn(
+{'loss': 3.1817, 'grad_norm': 2.1253957748413086, 'learning_rate': 2e-05, 'epoch': 0.0}
+{'loss': 2.8507, 'grad_norm': 2.068655252456665, 'learning_rate': 4e-05, 'epoch': 0.0}
+{'loss': 2.9772, 'grad_norm': 1.954174518585205, 'learning_rate': 6e-05, 'epoch': 0.0}
+{'loss': 2.4482, 'grad_norm': 1.8914507627487183, 'learning_rate': 8e-05, 'epoch': 0.0}
+{'loss': 3.1032, 'grad_norm': 2.1943624019622803, 'learning_rate': 0.0001, 'epoch': 0.0}
+{'loss': 3.1245, 'grad_norm': 1.888848900794983, 'learning_rate': 0.00012, 'epoch': 0.0}
+{'loss': 3.0004, 'grad_norm': 1.9238353967666626, 'learning_rate': 0.00014, 'epoch': 0.0}
+{'loss': 2.7938, 'grad_norm': 2.0145702362060547, 'learning_rate': 0.00016, 'epoch': 0.0}
+{'loss': 2.8444, 'grad_norm': 2.233994722366333, 'learning_rate': 0.00018, 'epoch': 0.0}
+{'loss': 2.8166, 'grad_norm': 1.8144105672836304, 'learning_rate': 0.0002, 'epoch': 0.0}
+{'loss': 2.2182, 'grad_norm': 1.825373888015747, 'learning_rate': 0.00019993668882557772, 'epoch': 0.0}
+{'loss': 2.6549, 'grad_norm': 1.7957361936569214, 'learning_rate': 0.00019987337765115543, 'epoch': 0.0}
+{'loss': 2.6868, 'grad_norm': 1.9056490659713745, 'learning_rate': 0.00019981006647673316, 'epoch': 0.0}

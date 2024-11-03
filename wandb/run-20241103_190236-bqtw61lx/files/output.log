@@ -1,0 +1,11 @@
+  0%|                                                                                                                                                                                 | 1/3169 [00:17<15:23:46, 17.50s/it]Traceback (most recent call last):
+{'loss': 2.7664, 'grad_norm': 1.9589375257492065, 'learning_rate': 2e-05, 'epoch': 0.0}
+  File "c:\Users\leopu\OneDrive\Programming\Python\llama-cleaner\finetuning\finetuning.py", line 191, in <module>
+    trainer.train()
+  File "C:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\transformers\trainer.py", line 2122, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\leopu\AppData\Local\Programs\Python\Python312\Lib\site-packages\transformers\trainer.py", line 2479, in _inner_training_loop
+    and (torch.isnan(tr_loss_step) or torch.isinf(tr_loss_step))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

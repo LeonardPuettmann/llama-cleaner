@@ -1,0 +1,16 @@
+{"time":"2024-11-03T19:02:37.0069795+01:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2024-11-03T19:02:37.0069795+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\leopu\\OneDrive\\Programming\\Python\\llama-cleaner\\wandb\\run-20241103_190236-bqtw61lx\\logs\\debug-core.log"}
+{"time":"2024-11-03T19:02:37.1185848+01:00","level":"INFO","msg":"created new stream","id":"bqtw61lx"}
+{"time":"2024-11-03T19:02:37.1187056+01:00","level":"INFO","msg":"stream: started","id":"bqtw61lx"}
+{"time":"2024-11-03T19:02:37.1187056+01:00","level":"INFO","msg":"handler: started","stream_id":{"value":"bqtw61lx"}}
+{"time":"2024-11-03T19:02:37.1187056+01:00","level":"INFO","msg":"sender: started","stream_id":"bqtw61lx"}
+{"time":"2024-11-03T19:02:37.1187056+01:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"bqtw61lx"}}
+{"time":"2024-11-03T19:02:37.4449129+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-11-03T19:03:03.4959919+01:00","level":"INFO","msg":"stream: closing","id":"bqtw61lx"}
+{"time":"2024-11-03T19:03:03.4959919+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-11-03T19:03:03.4967489+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-11-03T19:03:06.360532+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-11-03T19:03:06.6206625+01:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"bqtw61lx"}}
+{"time":"2024-11-03T19:03:06.6206625+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"bqtw61lx"}}
+{"time":"2024-11-03T19:03:06.6206625+01:00","level":"INFO","msg":"sender: closed","stream_id":"bqtw61lx"}
+{"time":"2024-11-03T19:03:06.6211784+01:00","level":"INFO","msg":"stream: closed","id":"bqtw61lx"}

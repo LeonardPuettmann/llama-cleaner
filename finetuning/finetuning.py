@@ -21,8 +21,9 @@ from huggingface_hub import login
 from datasets import *
 
 import os
-import glob 
+import pathlib 
 import json
+import bitsandbytes as bnb
 
 hf_token = os.getenv("HUGGINGFACE_API_KEY")
 login(token=hf_token)
@@ -59,14 +60,13 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 
 # Load tokenizer
-tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
-
-
-### 
-# add data stuff here 
-### 
-
-import bitsandbytes as bnb
+tokenizer = AutoTokenizer.from_pretrained(
+    base_model, 
+    trust_remote_code=True,
+    padding=True,
+    padding_side="right",
+    truncation=True
+    )
 
 def find_all_linear_names(model):
     cls = bnb.nn.Linear4bit
@@ -90,22 +90,23 @@ peft_config = LoraConfig(
     task_type="CAUSAL_LM",
     target_modules=modules
 )
-model, tokenizer = setup_chat_format(model, tokenizer)
+#model, tokenizer = setup_chat_format(model, tokenizer)
 model = get_peft_model(model, peft_config) 
 
 new_model = "llama-3.2-1b-it-finetuned"
 
 # prep the dataset
 def load_json_data(folder_path, key):
+    folder_path = pathlib.Path(folder_path).resolve()  # Resolve to absolute path
     data = []
-    for file_path in glob.glob(folder_path + '/*.json'):
+    for file_path in folder_path.glob('*.json'):
         with open(file_path, 'r') as file:
             json_data = json.load(file)
             data.extend(json_data[key])
     return data
 
-raw_pages = load_json_data("../data_prep/data", key="ocr_results")
-cleaned_pages = load_json_data("../data_prep/data", key="cleaned_pages")
+raw_pages = load_json_data("C:\\Users\\leopu\\OneDrive\\Programming\\Python\\llama-cleaner\\data_prep\\data", key="ocr_results")
+cleaned_pages = load_json_data("C:\\Users\\leopu\\OneDrive\\Programming\\Python\\llama-cleaner\\data_prep\\data", key="cleaned_pages")
 
 test_size = 0.2
 train_size = int(len(cleaned_pages) * (1 - test_size))
@@ -116,6 +117,10 @@ dataset = DatasetDict({
     'train': Dataset.from_dict({"raw_pages": train_raw_pages[:len(train_cleaned_pages)], "cleaned_pages": train_cleaned_pages}),
     'test': Dataset.from_dict({"raw_pages": test_raw_pages[:len(test_cleaned_pages)], "cleaned_pages": test_cleaned_pages})
 })
+
+print(dataset)
+
+#dataset = Dataset.from_dict({"raw_pages": train_raw_pages[:len(train_cleaned_pages)], "cleaned_pages": train_cleaned_pages})
 
 base_model = "unsloth/Llama-3.2-1B-Instruct"
 tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
@@ -140,12 +145,14 @@ def format_chat_template(row):
                {"role": "user", "content": row["raw_pages"]},
                {"role": "assistant", "content": row["cleaned_pages"]}]
     
-    row["text"] = tokenizer.apply_chat_template(row_json, tokenize=False)
+    row["text"] = tokenizer.apply_chat_template(row_json, tokenize=False, padding=True, truncation=True)
     return row
 
 dataset = dataset.map(
     format_chat_template
 )
+
+print(dataset)
 
 #Hyperparamter
 training_arguments = TrainingArguments(
@@ -178,7 +185,7 @@ trainer = SFTTrainer(
     dataset_text_field="text",
     tokenizer=tokenizer,
     args=training_arguments,
-    packing= False,
+    packing=True,
 )
 
 trainer.train()
